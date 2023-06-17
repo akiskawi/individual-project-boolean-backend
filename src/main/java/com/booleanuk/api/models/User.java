@@ -1,8 +1,11 @@
 package com.booleanuk.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -26,9 +29,9 @@ public class User {
     @JoinColumn(name = "goal_id",referencedColumnName = "id")
     private Goal goal;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "program_id",referencedColumnName = "id")
-    private Program program;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Workout> workouts;
 
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;

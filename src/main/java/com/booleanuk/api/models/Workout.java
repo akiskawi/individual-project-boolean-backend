@@ -17,8 +17,10 @@ public class Workout {
     @ManyToOne
     @JoinColumn(name = "program_id",nullable = false)
     @JsonIgnore
-    private Program program;
+    private User user;
 
+    @Column
+    private String name;
     @Column
     @Enumerated
     private EDay day;
