@@ -2,8 +2,8 @@ package com.booleanuk.api.controllers;
 
 import com.booleanuk.api.models.Goal;
 import com.booleanuk.api.models.Stats;
-import com.booleanuk.api.models.dtos.ReqGoal;
-import com.booleanuk.api.models.dtos.ReqStat;
+import com.booleanuk.api.models.dtos.CreateGoal;
+import com.booleanuk.api.models.dtos.CreateStats;
 import com.booleanuk.api.repositories.GoalRepository;
 import com.booleanuk.api.repositories.StatsRepository;
 import com.booleanuk.api.repositories.UserRepository;
@@ -28,7 +28,7 @@ public class GoalStatsController {
     }
 
     @PutMapping("/goals")
-    public Goal updateGoals(@PathVariable int userId, @RequestBody ReqGoal goals) {
+    public Goal updateGoals(@PathVariable int userId, @RequestBody CreateGoal goals) {
         Goal oldGoals = getGoalsOfUser(userId);
         if (goals.getWeight() != 0) oldGoals.setWeight(goals.getWeight());
         if (goals.getBodyFat() != null) oldGoals.setBodyFat(goals.getBodyFat());
@@ -41,7 +41,7 @@ public class GoalStatsController {
     }
 
     @PutMapping("/stats")
-    public Stats updateStats(@PathVariable int userId, @RequestBody ReqStat stats) {
+    public Stats updateStats(@PathVariable int userId, @RequestBody CreateStats stats) {
         Stats oldStats = getStatsOfUser(userId);
         if (stats.getBodyFat() != null) oldStats.setBodyFat(stats.getBodyFat());
         if (stats.getHeight() != 0) oldStats.setHeight(stats.getHeight());

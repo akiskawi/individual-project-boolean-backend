@@ -36,6 +36,12 @@ public class UserController {
         Goal goal = goalRepository.save(tmpGoal);
         user.setGoal(goal);
         user.setStats(stats);
+        return userRepository.save(user);
+    }
+    @DeleteMapping("users/{id}")
+    public User deleteUser(@PathVariable int id){
+        User user =getOneUser(id);
+        userRepository.delete(user);
         return user;
     }
 }
