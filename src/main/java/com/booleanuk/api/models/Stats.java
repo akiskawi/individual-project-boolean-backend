@@ -22,5 +22,10 @@ public class Stats {
     @Column
     private String bodyFat;
 
-
+    public Stats(User user, double weight, double height, String bodyFat) {
+        this.user = user;
+        this.weight = weight;
+        this.height = height;
+        this.bodyFat = bodyFat;
+    }
 }

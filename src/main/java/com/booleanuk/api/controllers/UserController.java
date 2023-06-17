@@ -1,11 +1,14 @@
 package com.booleanuk.api.controllers;
 
+import com.booleanuk.api.models.Goal;
+import com.booleanuk.api.models.Stats;
 import com.booleanuk.api.models.User;
+import com.booleanuk.api.models.dtos.CreateUser;
+import com.booleanuk.api.repositories.GoalRepository;
+import com.booleanuk.api.repositories.StatsRepository;
 import com.booleanuk.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,9 +16,26 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    StatsRepository statsRepository;
+    @Autowired
+    GoalRepository goalRepository;
 
     @GetMapping("/users/{id}")
     public User getOneUser(@PathVariable int id){
         return userRepository.findById(id).get();
+    }
+
+    @PostMapping("users")
+    public User createUser(@RequestBody CreateUser createUser){
+        User tmpUser = new User(createUser.getFirstName(),createUser.getLastName(),createUser.getEmail());
+        User user = userRepository.save(tmpUser);
+       Stats tmpStats = createUser.getStats().toStats(user);
+       Stats stats = statsRepository.save(tmpStats);
+        Goal tmpGoal = createUser.getGoal().toGoal(user);
+        Goal goal = goalRepository.save(tmpGoal);
+        user.setGoal(goal);
+        user.setStats(stats);
+        return user;
     }
 }

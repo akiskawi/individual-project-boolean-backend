@@ -28,4 +28,9 @@ public class User {
     @JoinColumn(name = "program_id",referencedColumnName = "id")
     private Program program;
 
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 }

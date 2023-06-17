@@ -20,5 +20,9 @@ public class Goal {
     @Column
     private String  bodyFat;
 
-
+    public Goal(User user, double weight, String bodyFat) {
+        this.user = user;
+        this.weight = weight;
+        this.bodyFat = bodyFat;
+    }
 }
