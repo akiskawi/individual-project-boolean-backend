@@ -8,7 +8,9 @@ import com.booleanuk.api.repositories.GoalRepository;
 import com.booleanuk.api.repositories.StatsRepository;
 import com.booleanuk.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,7 +25,8 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User getOneUser(@PathVariable int id){
-        return userRepository.findById(id).get();
+        return userRepository.findById(id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"User not in database"));
     }
 
     @PostMapping("users")
@@ -43,5 +46,18 @@ public class UserController {
         User user =getOneUser(id);
         userRepository.delete(user);
         return user;
+    }
+    @PutMapping("users/{id}")
+    public User updateUser(@PathVariable int id,@RequestBody CreateUser newUser){
+        User tmp = getOneUser(id);
+        if (newUser.getFirstName()!=null) tmp.setEmail(newUser.getEmail());
+        if (newUser.getLastName()!=null)tmp.setLastName(newUser.getLastName());
+        if (newUser.getEmail()!=null){
+            if (userRepository.findByEmail(newUser.getEmail()).isPresent()){
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Email already exists");
+            }
+            tmp.setEmail(newUser.getEmail());
+        }
+        return userRepository.save(tmp);
     }
 }
