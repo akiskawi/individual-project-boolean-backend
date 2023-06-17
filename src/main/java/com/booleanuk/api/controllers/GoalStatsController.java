@@ -7,6 +7,7 @@ import com.booleanuk.api.models.dtos.CreateStats;
 import com.booleanuk.api.repositories.GoalRepository;
 import com.booleanuk.api.repositories.StatsRepository;
 import com.booleanuk.api.repositories.UserRepository;
+import com.booleanuk.api.services.GoalStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,38 +16,29 @@ import org.springframework.web.bind.annotation.*;
 public class GoalStatsController {
 
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    GoalRepository goalRepository;
-    @Autowired
-    StatsRepository statsRepository;
+    GoalStatsService goalStatsService;
+
+
 
 
     @GetMapping("/goals")
     public Goal getGoalsOfUser(@PathVariable int userId) {
-        return userRepository.findById(userId).get().getGoal();
+        return goalStatsService.getGoals(userId);
     }
 
     @PutMapping("/goals")
     public Goal updateGoals(@PathVariable int userId, @RequestBody CreateGoal goals) {
-        Goal oldGoals = getGoalsOfUser(userId);
-        if (goals.getWeight() != 0) oldGoals.setWeight(goals.getWeight());
-        if (goals.getBodyFat() != null) oldGoals.setBodyFat(goals.getBodyFat());
-        return goalRepository.save(oldGoals);
+        return goalStatsService.updateGoals(userId,goals);
     }
 
     @GetMapping("/stats")
     public Stats getStatsOfUser(@PathVariable int userId) {
-        return userRepository.findById(userId).get().getStats();
+        return goalStatsService.getStats(userId);
     }
 
     @PutMapping("/stats")
     public Stats updateStats(@PathVariable int userId, @RequestBody CreateStats stats) {
-        Stats oldStats = getStatsOfUser(userId);
-        if (stats.getBodyFat() != null) oldStats.setBodyFat(stats.getBodyFat());
-        if (stats.getHeight() != 0) oldStats.setHeight(stats.getHeight());
-        if (stats.getWeight() != 0) oldStats.setWeight(stats.getWeight());
-        return statsRepository.save(oldStats);
+        return goalStatsService.updateStats(userId,stats);
     }
 
 }
