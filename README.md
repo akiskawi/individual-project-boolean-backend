@@ -13,6 +13,7 @@ git clone
 ```bash
 create database
 ```
+
 Running : sql to build database?
 
 [//]: # (- run `src/main/resources/create_database.sql`)
@@ -36,7 +37,7 @@ The app will start running at <http://localhost:4000>
 The app defines following CRUD APIs.
 
 | Method | Url       | Description     | Sample Valid Request Body |
-| ------ | --------- | --------------- | ------------------------- |
+|--------|-----------|-----------------|---------------------------|
 | POST   | /users    | create user     | [JSON](#create)           |
 | PUT    | /users/id | Update user     | [JSON](#update)           |
 | DELETE | /users/id | Delete user     |                           |
@@ -45,12 +46,20 @@ The app defines following CRUD APIs.
 
 RequestMapping("users/userId)
 
-| Method | Url    | Description         | Sample Valid Request Body |
-| ------ | ------ | ------------------- | ------------------------- |
-| PUT    | /stats | Update user's stats | [JSON](#stats)            |
-| GET    | /stats | Get user's stats    |                           |
-| PUT    | /goals | Update user's goals | [JSON](#goal)             |
-| GET    | /goals | Get user's goals    |                           |
+| Method | Url          | Description             | Sample Valid Request Body |
+|--------|--------------|-------------------------|---------------------------|
+| PUT    | /stats       | Update user's stats     | [JSON](#stats)            |
+| GET    | /stats       | Get user's stats        |                           |
+| PUT    | /goals       | Update user's goals     | [JSON](#goal)             |
+| GET    | /goals       | Get user's goals        |                           |
+|        |              |                         |                           |
+| GET    | /workouts    | Get user's workouts     |                           |
+| GET    | /workouts/id | Get workout with id     |                           |
+| POST   | /workouts    | Create workout for user | [JSON](#workoutC)         |
+| PUT    | /workouts/id | Update workout          | [JSON](#workoutU)         |
+| DELETE | /workouts/id | Delete workout          |                           |
+
+
 
 ## Sample Valid JSON Request Bodys
 
@@ -99,5 +108,31 @@ RequestMapping("users/userId)
   "weight": 180,
   "height": 190,
   "bodyFat": "20%"
+}
+```
+
+##### <a id="workoutC">Create user's workout</a>
+
+```json
+{
+  "name": "Legs",
+  "day": "MONDAY",
+  "exercises": [
+    {
+      "name": "Push-ups",
+      "sets": 3,
+      "reps": 12,
+      "rpe": 7
+    }
+  ]
+}
+```
+
+##### <a id="workoutU">Create user's workout</a>
+
+```json
+{
+  "name": "Legs",
+  "day": "MONDAY"
 }
 ```

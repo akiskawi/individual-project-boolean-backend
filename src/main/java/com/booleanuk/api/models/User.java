@@ -29,7 +29,7 @@ public class User {
     @JoinColumn(name = "goal_id",referencedColumnName = "id")
     private Goal goal;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Workout> workouts;
 
