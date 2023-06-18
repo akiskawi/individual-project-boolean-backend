@@ -28,7 +28,7 @@ public class Workout {
     @Enumerated
     private EDay day;
 
-    @OneToMany(mappedBy = "workout",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "workout",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Exercise> exercises;
 
     public Workout(User user, String name, EDay day) {

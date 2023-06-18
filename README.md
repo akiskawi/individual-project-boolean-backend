@@ -13,10 +13,7 @@ git clone
 ```bash
 create database
 ```
-
-Running : sql to build database?
-
-[//]: # (- run `src/main/resources/create_database.sql`)
+- run `db/create.sql`
 
 **3. Change PostgreSQL username and password as per your installation**
 
@@ -44,7 +41,7 @@ The app defines following CRUD APIs.
 | GET    | /users    | Get all users   |                           |
 | GET    | /users/id | Get single user |                           |
 
-RequestMapping("users/userId)
+RequestMapping("users/userId")
 
 | Method | Url           | Description             | Sample Valid Request Body |
 |--------|---------------|-------------------------|---------------------------|
@@ -58,12 +55,17 @@ RequestMapping("users/userId)
 | POST   | /workouts     | Create workout for user | [JSON](#workoutC)         |
 | PUT    | /workouts/id  | Update workout          | [JSON](#workoutU)         |
 | DELETE | /workouts/id  | Delete workout<br/>     |                           |
+
+RequestMapping("users/userId/workouts/workoutId")
+
+| Method | Url           | Description             | Sample Valid Request Body |
+|--------|---------------|-------------------------|---------------------------|
 |        |               |                         |                           |
 | GET    | /exercises    | Get all exercises       |                           |
 | GET    | /exercises/id | Get single exercises    |                           |
 | POST   | /exercises    | Create a exercise       | [JSON](#exerciseC)        |
-| PUT    | exercises/id  | Update the exercise     | [JSON](#exerciseU)        |
-| DELETE | exercises/id  | Delete the exercise     |                           |
+| PUT    | /exercises/id | Update the exercise     | [JSON](#exerciseU)        |
+| DELETE | /exercises/id | Delete the exercise     |                           |
 
 ## Sample Valid JSON Request Bodys
 
@@ -132,7 +134,7 @@ RequestMapping("users/userId)
 }
 ```
 
-##### <a id="workoutU">Create user's workout</a>
+##### <a id="workoutU">Update user's workout</a>
 
 ```json
 {

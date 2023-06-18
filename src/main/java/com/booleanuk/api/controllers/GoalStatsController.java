@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("users/{userId}")
+@CrossOrigin(origins = "http://localhost:5050")
 public class GoalStatsController {
 
     @Autowired
