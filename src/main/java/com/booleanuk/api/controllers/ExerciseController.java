@@ -34,12 +34,12 @@ public class ExerciseController {
     }
 
     @PostMapping
-    public Exercise createExercise(@PathVariable int userId, @PathVariable int workoutId, CreateExercise createExercise) {
+    public Exercise createExercise(@PathVariable int userId, @PathVariable int workoutId,@RequestBody CreateExercise createExercise) {
         Workout workout = workoutService.getSingleWorkout(userId, workoutId);
         return exerciseRepository.save(createExercise.toExercise(workout));
     }
     @PutMapping("/{id}")
-    public Exercise updateExercise(@PathVariable int userId, @PathVariable int workoutId,@PathVariable int id, CreateExercise createExercise) {
+    public Exercise updateExercise(@PathVariable int userId, @PathVariable int workoutId,@PathVariable int id,@RequestBody CreateExercise createExercise) {
        Exercise exercise =getSingleExercise(userId, workoutId, id);
         if (createExercise.getName()!=null) exercise.setName(createExercise.getName());
         if (createExercise.getSets()!=0) exercise.setSets(createExercise.getSets());

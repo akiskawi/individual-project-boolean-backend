@@ -46,20 +46,24 @@ The app defines following CRUD APIs.
 
 RequestMapping("users/userId)
 
-| Method | Url          | Description             | Sample Valid Request Body |
-|--------|--------------|-------------------------|---------------------------|
-| PUT    | /stats       | Update user's stats     | [JSON](#stats)            |
-| GET    | /stats       | Get user's stats        |                           |
-| PUT    | /goals       | Update user's goals     | [JSON](#goal)             |
-| GET    | /goals       | Get user's goals        |                           |
-|        |              |                         |                           |
-| GET    | /workouts    | Get user's workouts     |                           |
-| GET    | /workouts/id | Get workout with id     |                           |
-| POST   | /workouts    | Create workout for user | [JSON](#workoutC)         |
-| PUT    | /workouts/id | Update workout          | [JSON](#workoutU)         |
-| DELETE | /workouts/id | Delete workout          |                           |
-
-
+| Method | Url           | Description             | Sample Valid Request Body |
+|--------|---------------|-------------------------|---------------------------|
+| PUT    | /stats        | Update user's stats     | [JSON](#stats)            |
+| GET    | /stats        | Get user's stats        |                           |
+| PUT    | /goals        | Update user's goals     | [JSON](#goal)             |
+| GET    | /goals        | Get user's goals        |                           |
+|        |               |                         |                           |
+| GET    | /workouts     | Get user's workouts     |                           |
+| GET    | /workouts/id  | Get workout with id     |                           |
+| POST   | /workouts     | Create workout for user | [JSON](#workoutC)         |
+| PUT    | /workouts/id  | Update workout          | [JSON](#workoutU)         |
+| DELETE | /workouts/id  | Delete workout<br/>     |                           |
+|        |               |                         |                           |
+| GET    | /exercises    | Get all exercises       |                           |
+| GET    | /exercises/id | Get single exercises    |                           |
+| POST   | /exercises    | Create a exercise       | [JSON](#exerciseC)        |
+| PUT    | exercises/id  | Update the exercise     | [JSON](#exerciseU)        |
+| DELETE | exercises/id  | Delete the exercise     |                           |
 
 ## Sample Valid JSON Request Bodys
 
@@ -134,5 +138,26 @@ RequestMapping("users/userId)
 {
   "name": "Legs",
   "day": "MONDAY"
+}
+```
+
+##### <a id="exerciseC">Create workout's exercise</a>
+
+```json
+{
+  "name": "Bench Press",
+  "sets": 4,
+  "reps": 6,
+  "rpe": 7
+}
+```
+##### <a id="exerciseU">Update workout's exercise</a>
+
+```json
+{
+  "name": "new Press",
+  "sets": 5,
+  "reps": 5,
+  "rpe": 8
 }
 ```
