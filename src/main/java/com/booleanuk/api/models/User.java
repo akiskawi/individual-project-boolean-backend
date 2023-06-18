@@ -30,7 +30,7 @@ public class User {
     private Goal goal;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JsonIgnore
+//    @JsonIgnore
     private List<Workout> workouts;
 
     public User(String firstName, String lastName, String email) {

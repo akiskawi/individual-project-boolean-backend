@@ -1,6 +1,8 @@
 package com.booleanuk.api.controllers;
 
 import com.booleanuk.api.models.User;
+import com.booleanuk.api.models.daos.UserDao;
+import com.booleanuk.api.models.daos.UserDaoView;
 import com.booleanuk.api.models.dtos.CreateUser;
 import com.booleanuk.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +20,17 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDao> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getOneUser(@PathVariable int id) {
+    public UserDaoView getOneUser(@PathVariable int id) {
         return userService.getSingleUser(id);
     }
 
     @PostMapping
-    public User createUser(@RequestBody CreateUser createUser) {
+    public UserDao createUser(@RequestBody CreateUser createUser) {
         return userService.createUser(createUser);
     }
 

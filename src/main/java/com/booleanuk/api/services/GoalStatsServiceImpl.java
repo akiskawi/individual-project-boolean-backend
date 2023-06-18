@@ -21,7 +21,7 @@ public class GoalStatsServiceImpl implements GoalStatsService {
 
     @Override
     public Goal getGoals(int id) {
-        return userService.getSingleUser(id).getGoal();
+        return userService.getUserById(id).getGoal();
     }
 
     @Override

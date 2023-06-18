@@ -3,6 +3,8 @@ package com.booleanuk.api.services;
 import com.booleanuk.api.models.Goal;
 import com.booleanuk.api.models.Stats;
 import com.booleanuk.api.models.User;
+import com.booleanuk.api.models.daos.UserDao;
+import com.booleanuk.api.models.daos.UserDaoView;
 import com.booleanuk.api.models.dtos.CreateUser;
 import com.booleanuk.api.repositories.GoalRepository;
 import com.booleanuk.api.repositories.StatsRepository;
@@ -22,18 +24,24 @@ public class UserServiceImpl implements UserService {
     @Autowired
     GoalRepository goalRepository;
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDao> getAllUsers() {
+        List<User> users =  userRepository.findAll();
+        return  users.stream().map(UserDao::new).toList();
     }
 
     @Override
-    public User getSingleUser(int id) {
+    public UserDaoView getSingleUser(int id) {
+        User user = getUserById(id);
+        return new UserDaoView(user);
+    }
+    @Override
+    public User getUserById(int id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not in database"));
     }
 
     @Override
-    public User createUser(CreateUser createUser) {
+    public UserDao createUser(CreateUser createUser) {
         User tmpUser = new User(createUser.getFirstName(), createUser.getLastName(), createUser.getEmail());
         User user = userRepository.save(tmpUser);
         Stats stats = new Stats();
@@ -49,12 +57,13 @@ public class UserServiceImpl implements UserService {
         }
         user.setGoal(goal);
         user.setStats(stats);
-        return userRepository.save(user);
+        User theUser =  userRepository.save(user);
+        return new UserDao(theUser);
     }
 
     @Override
     public User updateUser(int id, CreateUser newUser) {
-        User tmp = getSingleUser(id);
+        User tmp = getUserById(id);
         if (newUser.getFirstName() != null) tmp.setEmail(newUser.getEmail());
         if (newUser.getLastName() != null) tmp.setLastName(newUser.getLastName());
         if (newUser.getEmail() != null) {
@@ -68,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User deleteUser(int id) {
-        User user = getSingleUser(id);
+        User user = getUserById(id);
         userRepository.delete(user);
         return user;
     }

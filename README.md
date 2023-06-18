@@ -21,11 +21,11 @@ create database
 - change `spring.datasource.username` and `spring.datasource.password` as per your PostgreSQL installation
 - change name to `src/main/resources/application.yml`
 
-**4. Run the app using maven**
+**4. Run the app**
 
-```bash
-mvn spring-boot:run
-```
+<!-- ```bash
+gradle bootRun
+``` -->
 
 The app will start running at <http://localhost:4000>
 

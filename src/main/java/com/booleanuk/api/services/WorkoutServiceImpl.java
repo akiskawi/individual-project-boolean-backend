@@ -23,21 +23,21 @@ public class WorkoutServiceImpl implements WorkoutService {
     ExerciseRepository exerciseRepository;
     @Override
     public Workout getSingleWorkout(int userId, int id) {
-        User user = userService.getSingleUser(userId);
+        User user = userService.getUserById(userId);
         return workoutRepository.findByIdAndUser(id,user)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Workout not found"));
     }
 
     @Override
     public List<Workout> getAllWorkouts(int userId) {
-        User user = userService.getSingleUser(userId);
+        User user = userService.getUserById(userId);
         return workoutRepository.findByUser(user);
 
     }
 
     @Override
     public Workout createWorkout(int userId, CreateWorkout createWorkout) {
-        User user = userService.getSingleUser(userId);
+        User user = userService.getUserById(userId);
         Workout theWorkout = workoutRepository.save(createWorkout.toWorkout(user));
         List<Exercise> tmpExercises = createWorkout.getExercises().stream().map(x -> x.toExercise(theWorkout)).toList();
         List<Exercise> theExercises = exerciseRepository.saveAll(tmpExercises);
