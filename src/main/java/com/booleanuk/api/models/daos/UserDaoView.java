@@ -15,13 +15,13 @@ public class UserDaoView extends UserDao {
     private String email;
     private Stats stats;
     private Goal goals;
-    private List<Workout> workouts;
+    private List<WorkoutDao> workouts;
 
     public UserDaoView(User user) {
         super(user);
         email= user.getEmail();
         stats = user.getStats();
         goals = user.getGoal();
-        workouts = user.getWorkouts();
+        workouts = user.getWorkouts().stream().map(WorkoutDao::new).toList();
     }
 }
