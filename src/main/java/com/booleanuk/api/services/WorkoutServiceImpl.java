@@ -3,6 +3,7 @@ package com.booleanuk.api.services;
 import com.booleanuk.api.models.Exercise;
 import com.booleanuk.api.models.User;
 import com.booleanuk.api.models.Workout;
+import com.booleanuk.api.models.daos.WorkoutDao;
 import com.booleanuk.api.models.dtos.CreateWorkout;
 import com.booleanuk.api.repositories.ExerciseRepository;
 import com.booleanuk.api.repositories.WorkoutRepository;
@@ -21,11 +22,18 @@ public class WorkoutServiceImpl implements WorkoutService {
     WorkoutRepository workoutRepository;
     @Autowired
     ExerciseRepository exerciseRepository;
-    @Override
+
     public Workout getSingleWorkout(int userId, int id) {
         User user = userService.getUserById(userId);
         return workoutRepository.findByIdAndUser(id,user)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Workout not found"));
+    }
+    @Override
+    public WorkoutDao getSingleWorkoutDao(int userId, int id) {
+        User user = userService.getUserById(userId);
+        Workout w= workoutRepository.findByIdAndUser(id,user)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Workout not found"));
+        return new WorkoutDao(w);
     }
 
     @Override
@@ -46,11 +54,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public Workout updateWorkout(int userId, int id, CreateWorkout createWorkout) {
+    public WorkoutDao updateWorkout(int userId, int id, CreateWorkout createWorkout) {
         Workout workout = getSingleWorkout(userId, id);
         if (createWorkout.getName() != null) workout.setName(createWorkout.getName());
         if (createWorkout.getDay() != null) workout.setDay(createWorkout.getDay());
-        return workoutRepository.save(workout);
+        return new WorkoutDao(workoutRepository.save(workout));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.booleanuk.api.controllers;
 
 import com.booleanuk.api.models.Workout;
+import com.booleanuk.api.models.daos.WorkoutDao;
 import com.booleanuk.api.models.dtos.CreateWorkout;
 import com.booleanuk.api.services.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class WorkoutController {
     }
 
     @GetMapping("/{id}")
+    public WorkoutDao getSingleWorkoutDao(@PathVariable int userId, @PathVariable int id) {
+        return workoutService.getSingleWorkoutDao(userId, id);
+    }
+    @GetMapping("/{id}/all")
     public Workout getSingleWorkout(@PathVariable int userId, @PathVariable int id) {
         return workoutService.getSingleWorkout(userId, id);
     }
@@ -33,7 +38,7 @@ public class WorkoutController {
     }
 
     @PutMapping("/{id}")
-    public Workout updateWorkout(@PathVariable int userId, @PathVariable int id, @RequestBody CreateWorkout createWorkout) {
+    public WorkoutDao updateWorkout(@PathVariable int userId, @PathVariable int id, @RequestBody CreateWorkout createWorkout) {
         return workoutService.updateWorkout(userId, id, createWorkout);
     }
 
