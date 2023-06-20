@@ -8,10 +8,15 @@ import com.booleanuk.api.models.dtos.CreateUser;
 import java.util.List;
 
 public interface UserService {
-   List<UserDao> getAllUsers();
+    List<UserDao> getAllUsers();
+
     UserDaoView getSingleUser(int id);
+
     UserDao createUser(CreateUser createUser);
-    User updateUser(int id, CreateUser createUser);
+
+    UserDao updateUser(int id, CreateUser createUser);
+
     User deleteUser(int id);
+
     User getUserById(int id);
 }

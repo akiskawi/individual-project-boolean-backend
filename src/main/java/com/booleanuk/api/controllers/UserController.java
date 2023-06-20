@@ -6,9 +6,7 @@ import com.booleanuk.api.models.daos.UserDaoView;
 import com.booleanuk.api.models.dtos.CreateUser;
 import com.booleanuk.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody CreateUser newUser) {
+    public UserDao updateUser(@PathVariable int id, @RequestBody CreateUser newUser) {
         return userService.updateUser(id,newUser);
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -23,10 +25,11 @@ public class UserServiceImpl implements UserService {
     StatsRepository statsRepository;
     @Autowired
     GoalRepository goalRepository;
+
     @Override
     public List<UserDao> getAllUsers() {
-        List<User> users =  userRepository.findAll();
-        return  users.stream().map(UserDao::new).toList();
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserDao::new).toList();
     }
 
     @Override
@@ -34,6 +37,7 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(id);
         return new UserDaoView(user);
     }
+
     @Override
     public User getUserById(int id) {
         return userRepository.findById(id)
@@ -49,7 +53,7 @@ public class UserServiceImpl implements UserService {
             Stats tmpStats = createUser.getStats().toStats(user);
             stats = statsRepository.save(tmpStats);
         }
-        Goal goal= new Goal();
+        Goal goal = new Goal();
         if (createUser.getGoal() != null) {
             Goal tmpGoal = createUser.getGoal().toGoal(user);
             goal = goalRepository.save(tmpGoal);
@@ -57,22 +61,24 @@ public class UserServiceImpl implements UserService {
         }
         user.setGoal(goal);
         user.setStats(stats);
-        User theUser =  userRepository.save(user);
+        User theUser = userRepository.save(user);
         return new UserDao(theUser);
     }
 
     @Override
-    public User updateUser(int id, CreateUser newUser) {
+    public UserDao updateUser(int id, CreateUser newUser) {
         User tmp = getUserById(id);
-        if (newUser.getFirstName() != null) tmp.setEmail(newUser.getEmail());
+        if (newUser.getFirstName() != null) tmp.setFirstName(newUser.getFirstName());
         if (newUser.getLastName() != null) tmp.setLastName(newUser.getLastName());
         if (newUser.getEmail() != null) {
             if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Email already exists");
+                if (!Objects.equals(tmp.getEmail(),newUser.getEmail())) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Email already exists");
+                }
             }
             tmp.setEmail(newUser.getEmail());
         }
-        return userRepository.save(tmp);
+        return new UserDao(userRepository.save(tmp));
     }
 
     @Override
