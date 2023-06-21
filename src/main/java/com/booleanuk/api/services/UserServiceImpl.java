@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
             stats = statsRepository.save(tmpStats);
         }
         Goal goal = new Goal();
-        if (createUser.getGoal() != null) {
-            Goal tmpGoal = createUser.getGoal().toGoal(user);
+        if (createUser.getGoals() != null) {
+            Goal tmpGoal = createUser.getGoals().toGoal(user);
             goal = goalRepository.save(tmpGoal);
 
         }
